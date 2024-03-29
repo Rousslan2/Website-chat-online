@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat en ligne amélioré - Style Microsoft Word</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            position: relative;
+        }
+        .message {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            transition: all 0.5s ease;
+            opacity: 0; /* Commence caché */
+        }
+        .visible {
+            opacity: 1; /* Devient visible avec animation */
+        }
+        .typing-indicator {
+            color: #aaa;
+            font-style: italic;
+        }
+        .user-input {
+            width: calc(100% - 140px);
+            padding: 10px;
+            margin-top: 20px;
+            box-sizing: border-box;
+            display: inline-block;
+        }
+        #user-name {
+            width: 120px;
+            padding: 10px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-box">
+            <!-- Les messages du chat s'afficheront ici -->
+        </div>
+        <input type="text" id="user-name" placeholder="Votre nom" />
+        <input type="text" id="user-msg" class="user-input" placeholder="Tapez votre message ici..." />
+        <div id="typing-indicator" class="typing-indicator"></div>
+    </div>
+
+    <script>
+        document.getElementById('user-msg').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                sendMessage();
+            } else {
+                showTypingIndicator();
+            }
+        });
+
+        function sendMessage() {
+            var chatBox = document.getElementById('chat-box');
+            var userMsg = document.getElementById('user-msg');
+            var userName = document.getElementById('user-name').value.trim() || 'Anonyme';
+            
+            var messageContent = userName + ": " + userMsg.value.trim();
+            var messageElement = document.createElement('div');
+            messageElement.classList.add('message', 'visible');
+            messageElement.textContent = messageContent;
+            chatBox.appendChild(messageElement);
+            
+            userMsg.value = ''; // Réinitialiser l'input
+            hideTypingIndicator();
+        }
+
+        function showTypingIndicator() {
+            var typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.textContent = 'Quelqu\'un est en train d\'écrire...';
+            // Vous pouvez ajouter ici un délai pour cacher l'indicateur automatiquement si désiré
+        }
+
+        function hideTypingIndicator() {
+            var typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.textContent = ''; // Cache l'indicateur
+        }
+    </script>
+</body>
+</html>
